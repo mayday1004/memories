@@ -1,6 +1,7 @@
 import axios from 'axios';
+import * as config from '../config';
 
-const API = axios.create({ baseURL: 'https://memories-backend-4952.onrender.com' });
+const API = axios.create({ baseURL: config.FETCH_URL });
 
 API.interceptors.request.use(req => {
   if (localStorage.getItem('profile')) {

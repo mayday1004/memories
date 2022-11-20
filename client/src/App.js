@@ -5,9 +5,10 @@ import { gapi } from 'gapi-script';
 import Home from './components/Home/Home';
 import Navbar from './components/Navbar/Navbar';
 import Auth from './components/Auth/Auth';
+import * as config from './config';
 
 const App = () => {
-  const clientId = process.env.REACT_APP_GOOGLE_CLIENTID;
+  const clientId = config.GOOGLE_CLIENTID;
 
   useEffect(() => {
     const initClient = () => {
