@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
@@ -22,16 +23,20 @@ app.use(
   })
 );
 
-//routes
-app.get('/', (req, res) => {
-  res.send('Welcome!');
-});
-
+//routesa
 app.use('/posts', postsRouter);
 app.use('/user', authRouter);
 
-app.get('*', (req, res) => {
-  res.status(404).send('404 not found');
-});
+if (config.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../client/build')));
+  app.get('*', (req, res) => res.sendFile(path.resolve(__dirname, '..', 'client', 'build', 'index.html')));
+} else {
+  app.get('/', (req, res) => {
+    res.send('API is running..');
+  });
+  app.all('*', (req, res) => {
+    next(new AppError(`Can't find ${req.originalUrl}`, 404));
+  });
+}
 
 module.exports = app;
